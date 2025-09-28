@@ -5,7 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kocham Cię, Sylwia! 💖</title>
   <meta name="description" content="Mała strona-miłosny komunikat dla Sylwii." />
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root{
+      --bg1:#0f172a; --bg2:#1e293b; --txt:#e2e8f0; --accent:#f472b6; --btn:#fda4af; --card:#111827aa;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; font-family:system-ui,Segoe UI,Roboto,Arial;
+      color:var(--txt);
+      background:
+        radial-gradient(60vmax 60vmax at 10% 10%, #334155 0%, transparent 60%),
+        radial-gradient(60vmax 60vmax at 90% 10%, #4c1d95 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+    .wrap{ max-width:960px; margin:0 auto; padding:3rem 1.25rem 6rem; text-align:center; }
+    .title{ font-size:clamp(2rem,4vw + 1rem,4rem); line-height:1.1; margin:0 0 1rem; letter-spacing:.5px; }
+    .title .name{ color:var(--accent); text-shadow:0 0 16px #ec489988; }
+    .subtitle{ opacity:.9; margin:0 0 2rem; }
+    .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem; }
+    .card{ background:var(--card); border:1px solid #ffffff1a; border-radius:18px; padding:1.25rem; backdrop-filter:blur(6px);
+      box-shadow:0 10px 30px #00000033; text-align:left; }
+    .card h2{ margin:0 0 .5rem; font-size:1.25rem; }
+    .btn{ appearance:none; border:none; background:var(--btn); color:#111827; font-weight:700; border-radius:999px;
+      padding:.75rem 1.25rem; cursor:pointer; transition:transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+      box-shadow:0 8px 20px #fda4af45;
+    }
+    .btn:hover{ transform:translateY(-2px); } .btn:active{ transform:translateY(0); opacity:.9; }
+    #hearts{ position:fixed; inset:0; pointer-events:none; overflow:hidden; }
+    .heart{ position:absolute; width:22px; height:22px; transform:translate(-50%,-50%) scale(.9);
+      animation: floatUp 2.8s ease-in forwards, wobble 1.2s ease-in-out infinite; opacity:.95;
+      filter:drop-shadow(0 6px 16px #fb71852a);
+    }
+    @keyframes floatUp{
+      from{ transform: translate(var(--x), var(--startY)) scale(0.9); opacity:0.0; }
+      15%{ opacity:1; }
+      to{ transform: translate(var(--x), -10%) scale(1.25); opacity:0; }
+    }
+    @keyframes wobble{ 0%,100%{ translate:0 0; } 50%{ translate:6px 0; } }
+    code{ background:#ffffff12; padding:.15rem .35rem; border-radius:8px; }
+  </style>
 </head>
 <body>
   <main class="wrap">
@@ -31,18 +69,53 @@
       </div>
 
       <div class="card">
-        <h2>Edytuj tekst ↓</h2>
-        <p>
-          Zmień imię lub treść w pliku <code>index.html</code> (albo w JS — zmienna
-          <code>LOVED_ONE</code>) i zrób commit. Vercel opublikuje nową wersję.
-        </p>
+        <h2>Jak uczyć się Gita?</h2>
+        <p>Edytuj ten plik w GitHubie (✏️), wpisz opis zmiany i kliknij <strong>Commit changes</strong>. Zobaczysz nową wersję online.</p>
       </div>
     </section>
   </main>
 
-  <!-- Pojemnik na latające serduszka -->
   <div id="hearts"></div>
 
-  <script src="script.js"></script>
+  <script>
+    const LOVED_ONE = "Sylwia";
+    document.querySelectorAll(".name").forEach(el => (el.textContent = LOVED_ONE));
+
+    const KEY = "visits";
+    const visits = Number(localStorage.getItem(KEY) || 0) + 1;
+    localStorage.setItem(KEY, String(visits));
+    document.getElementById("visitCount").textContent = visits.toLocaleString("pl-PL");
+
+    const today = new Date();
+    document.getElementById("today").textContent = today.toLocaleString("pl-PL", {
+      weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit"
+    });
+
+    const heartsLayer = document.getElementById("hearts");
+    const btn = document.getElementById("heartBtn");
+    btn.addEventListener("click", () => burstHearts(28));
+
+    function burstHearts(n = 16){
+      const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      for(let i=0;i<n;i++){
+        const heart = document.createElementNS("http://www.w3.org/2000/svg","svg");
+        heart.setAttribute("viewBox","0 0 24 24");
+        heart.classList.add("heart");
+        const x = Math.random() * vw;
+        const y = vh + Math.random()*120;
+        heart.style.setProperty("--x", `${x}px`);
+        heart.style.setProperty("--startY", `${y}px`);
+        heart.style.left = `${x}px`;
+        heart.style.top = `${y}px`;
+        heart.style.rotate = `${(Math.random()*40-20).toFixed(0)}deg`;
+        const fills = ["#fb7185","#f472b6","#f43f5e","#ef4444","#ec4899"];
+        const fill = fills[Math.floor(Math.random()*fills.length)];
+        heart.innerHTML = `<path d="M12 21s-7.5-4.7-9.3-9.2C1.6 8.6 3.3 6 6.1 6c1.9 0 3 .9 3.9 2.2C10.9 6.9 12 6 13.9 6c2.8 0 4.5 2.6 3.4 5.8C19.5 16.3 12 21 12 21z" fill="${fill}"/>`;
+        heartsLayer.appendChild(heart);
+        heart.addEventListener("animationend", () => heart.remove());
+      }
+    }
+  </script>
 </body>
 </html>
