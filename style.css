@@ -1,0 +1,117 @@
+:root{
+  --bg1:#0f172a;    /* slate-900 */
+  --bg2:#1e293b;    /* slate-800 */
+  --txt:#e2e8f0;    /* slate-200 */
+  --accent:#f472b6; /* pink-400 */
+  --btn:#fda4af;    /* rose-300 */
+  --card:#111827aa; /* semi dark */
+}
+
+*{ box-sizing:border-box; }
+
+html,body{
+  height:100%;
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color:var(--txt);
+  background:
+    radial-gradient(60vmax 60vmax at 10% 10%, #334155 0%, transparent 60%),
+    radial-gradient(60vmax 60vmax at 90% 10%, #4c1d95 0%, transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  overflow-x:hidden;
+}
+
+.wrap{
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 6rem;
+  text-align:center;
+}
+
+.title{
+  font-size: clamp(2rem, 4vw + 1rem, 4rem);
+  line-height:1.1;
+  margin:0 0 1rem;
+  letter-spacing: .5px;
+}
+
+.title .name{
+  color: var(--accent);
+  text-shadow: 0 0 16px #ec489988;
+}
+
+.subtitle{
+  opacity:.9;
+  margin:0 0 2rem;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap:1rem;
+}
+
+.card{
+  background: var(--card);
+  border: 1px solid #ffffff1a;
+  border-radius: 18px;
+  padding: 1.25rem;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px #00000033;
+  text-align:left;
+}
+
+.card h2{
+  margin:0 0 .5rem;
+  font-size:1.25rem;
+}
+
+.btn{
+  appearance:none;
+  border:none;
+  background: var(--btn);
+  color:#111827;
+  font-weight:700;
+  border-radius: 999px;
+  padding:.75rem 1.25rem;
+  cursor:pointer;
+  transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+  box-shadow: 0 8px 20px #fda4af45;
+}
+.btn:hover{ transform: translateY(-2px); }
+.btn:active{ transform: translateY(0); opacity:.9; }
+
+/* Animowane serduszka */
+#hearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.heart{
+  position:absolute;
+  width:22px;
+  height:22px;
+  transform: translate(-50%,-50%) scale(.9);
+  animation: floatUp 2.8s ease-in forwards, wobble 1.2s ease-in-out infinite;
+  opacity:.95;
+  filter: drop-shadow(0 6px 16px #fb71852a);
+}
+
+@keyframes floatUp{
+  from{ transform: translate(var(--x), var(--startY)) scale(0.9); opacity:0.0; }
+  15%{ opacity:1; }
+  to{ transform: translate(var(--x), -10%) scale(1.25); opacity:0; }
+}
+@keyframes wobble{
+  0%,100%{ translate: 0 0; }
+  50%{ translate: 6px 0; }
+}
+
+/* Małe udogodnienia */
+code{
+  background:#ffffff12;
+  padding:.15rem .35rem;
+  border-radius:8px;
+}

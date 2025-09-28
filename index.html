@@ -2,12 +2,47 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8" />
-  <title>Moja pierwsza strona na Vercel</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kocham Cię, Sylwia! 💖</title>
+  <meta name="description" content="Mała strona-miłosny komunikat dla Sylwii." />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Witaj w internecie!</h1>
-  <p>Ta strona jest hostowana na Vercel Hobby.</p>
+  <main class="wrap">
+    <h1 class="title">
+      Kocham Cię, <span class="name">Sylwia</span>, moją żonko! 💞
+    </h1>
+
+    <p class="subtitle">
+      Ta strona żyje na GitHub + Vercel. Każda zmiana w repo = nowa wersja online.
+    </p>
+
+    <section class="cards">
+      <div class="card">
+        <h2>Mały pokaz miłości</h2>
+        <p>Kliknij przycisk, a polecą serduszka 💗</p>
+        <button id="heartBtn" class="btn">Wyślij serduszka</button>
+      </div>
+
+      <div class="card">
+        <h2>Odwiedziny i data</h2>
+        <p>Odwiedziłeś tę stronę <strong id="visitCount">0</strong> razy na tym urządzeniu.</p>
+        <p>Dziś jest: <strong id="today"></strong></p>
+      </div>
+
+      <div class="card">
+        <h2>Edytuj tekst ↓</h2>
+        <p>
+          Zmień imię lub treść w pliku <code>index.html</code> (albo w JS — zmienna
+          <code>LOVED_ONE</code>) i zrób commit. Vercel opublikuje nową wersję.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pojemnik na latające serduszka -->
+  <div id="hearts"></div>
+
   <script src="script.js"></script>
 </body>
 </html>
