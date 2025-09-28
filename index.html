@@ -67,6 +67,16 @@
         <p>Odwiedziłeś tę stronę <strong id="visitCount">0</strong> razy na tym urządzeniu.</p>
         <p>Dziś jest: <strong id="today"></strong></p>
       </div>
+	  
+	  <div class="card">   <!-- ⬇️ Nowa sekcja -->
+		<h2>Księga gości</h2>
+		<form id="guestForm">
+		  <input name="name" placeholder="Twoje imię" required />
+		  <input name="message" placeholder="Twoja wiadomość" required />
+		  <button class="btn">Dodaj wpis</button>
+		</form>
+		<ul id="guestList"></ul>
+	  </div>
 
       <div class="card">
         <h2>Jak uczyć się Gita?</h2>
