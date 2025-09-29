@@ -1,4 +1,4 @@
-// Ulotna "baza" w pamięci
+// Ulotna "baza" (RAM) – tylko do nauki
 globalThis.__GUESTBOOK = globalThis.__GUESTBOOK || [];
 
 // Pomocnik do czytania body (JSON + x-www-form-urlencoded)
@@ -28,14 +28,14 @@ export default async function handler(req, res) {
     const message = (body.message || "").toString().slice(0, 200);
 
     if (!name || !message) {
-      return res.status(400).json({ ok: false, error: "Podaj name i message" });
+      return res.status(400).json({ ok:false, error:"Podaj name i message" });
     }
 
     const entry = { id: Date.now(), name, message };
     globalThis.__GUESTBOOK.push(entry);
-    return res.status(201).json({ ok: true, item: entry });
+    return res.status(201).json({ ok:true, item: entry });
   }
 
   res.setHeader("Allow", "GET, POST");
-  return res.status(405).json({ ok: false, error: "Method Not Allowed" });
+  return res.status(405).json({ ok:false, error:"Method Not Allowed" });
 }
