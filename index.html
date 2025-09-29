@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kocham Cię, Sylwia! 💖</title>
   <meta name="description" content="Mała strona – miłosny komunikat dla Sylwii." />
-  <!-- Zewnętrzne style -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -36,7 +35,7 @@
       <!-- Karta: księga gości -->
       <div class="card">
         <h2>Księga gości</h2>
-        <!-- Fallback: bez JS wyśle POST na API -->
+        <!-- Fallback: bez JS formularz wyśle POST na API -->
         <form id="guestForm" action="/api/guestbook" method="post" autocomplete="off">
           <input name="name" placeholder="Twoje imię" required />
           <input name="message" placeholder="Twoja wiadomość" required />
@@ -50,7 +49,6 @@
   <!-- Warstwa na animowane serduszka -->
   <div id="hearts"></div>
 
-  <!-- Zewnętrzny skrypt (z diagnostyką w konsoli) -->
   <script src="script.js" defer></script>
   <noscript>Do obsługi księgi gości i animacji wymagany jest JavaScript.</noscript>
 </body>
