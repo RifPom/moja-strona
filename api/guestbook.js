@@ -1,28 +1,43 @@
-// Pseudo-baza w pamięci (ulotna, resetuje się po restarcie funkcji)
+// Minimalna "baza" w pamięci (ulotna)
 globalThis.__GUESTBOOK = globalThis.__GUESTBOOK || [];
 
-export default function handler(req, res) {
+// Pomocnik: odczyt body z requestu (działa na Vercel Functions "Other")
+async function readBody(req) {
+  let raw = "";
+  for await (const chunk of req) raw += chunk;
+  const ct = (req.headers["content-type"] || "").toLowerCase();
+
+  if (ct.includes("application/json")) {
+    try { return JSON.parse(raw || "{}"); } catch { return {}; }
+  }
+  if (ct.includes("application/x-www-form-urlencoded")) {
+    return Object.fromEntries(new URLSearchParams(raw));
+  }
+  // fallback: pusta mapa
+  return {};
+}
+
+export default async function handler(req, res) {
   if (req.method === "GET") {
-    // zwróć wpisy w kolejności od najnowszych
-    return res.status(200).json({ items: globalThis.__GUESTBOOK.slice().reverse() });
+    // wyłącz cache i zwróć najnowsze na górze
+    res.setHeader("Cache-Control", "no-store");
+    return res.status(200).json({ items: [...globalThis.__GUESTBOOK].reverse() });
   }
 
   if (req.method === "POST") {
-    const { name, message } = req.body || {};
+    const body = await readBody(req);
+    const name = (body.name || "").toString().slice(0, 50);
+    const message = (body.message || "").toString().slice(0, 200);
+
     if (!name || !message) {
-      return res.status(400).json({ error: "Podaj name i message" });
+      return res.status(400).json({ ok: false, error: "Podaj name i message" });
     }
 
-    const entry = {
-      id: Date.now(),
-      name: String(name).slice(0, 50),
-      message: String(message).slice(0, 200)
-    };
-
+    const entry = { id: Date.now(), name, message };
     globalThis.__GUESTBOOK.push(entry);
-    return res.status(201).json(entry);
+    return res.status(201).json({ ok: true, item: entry });
   }
 
-  res.setHeader("Allow", ["GET", "POST"]);
-  return res.status(405).end(`Method ${req.method} Not Allowed`);
+  res.setHeader("Allow", "GET, POST");
+  return res.status(405).json({ ok: false, error: "Method Not Allowed" });
 }
