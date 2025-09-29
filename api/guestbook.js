@@ -1,10 +1,10 @@
-// Minimalna "baza" w pamięci (ulotna)
+// Ulotna "baza" w pamięci
 globalThis.__GUESTBOOK = globalThis.__GUESTBOOK || [];
 
-// Pomocnik: odczyt body z requestu (działa na Vercel Functions "Other")
+// Pomocnik do czytania body (JSON + x-www-form-urlencoded)
 async function readBody(req) {
   let raw = "";
-  for await (const chunk of req) raw += chunk;
+  for await (const c of req) raw += c;
   const ct = (req.headers["content-type"] || "").toLowerCase();
 
   if (ct.includes("application/json")) {
@@ -13,13 +13,11 @@ async function readBody(req) {
   if (ct.includes("application/x-www-form-urlencoded")) {
     return Object.fromEntries(new URLSearchParams(raw));
   }
-  // fallback: pusta mapa
   return {};
 }
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-    // wyłącz cache i zwróć najnowsze na górze
     res.setHeader("Cache-Control", "no-store");
     return res.status(200).json({ items: [...globalThis.__GUESTBOOK].reverse() });
   }
