@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kocham Cię, Sylwia! 💖</title>
   <meta name="description" content="Mała strona – miłosny komunikat dla Sylwii." />
-
   <!-- Zewnętrzne style -->
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -20,28 +19,39 @@
     </p>
 
     <section class="cards">
+      <!-- Karta: serduszka -->
       <div class="card">
         <h2>Mały pokaz miłości</h2>
         <p>Kliknij przycisk, a polecą serduszka 💗</p>
-        <button id="heartBtn" class="btn">Wyślij serduszka</button>
+        <button id="heartBtn" class="btn" type="button">Wyślij serduszka</button>
       </div>
 
+      <!-- Karta: odwiedziny i data -->
       <div class="card">
         <h2>Odwiedziny i data</h2>
         <p>Odwiedziłeś tę stronę <strong id="visitCount">0</strong> razy na tym urządzeniu.</p>
         <p>Dziś jest: <strong id="today"></strong></p>
       </div>
 
-      <!-- Księga gości -->
+      <!-- Karta: księga gości -->
       <div class="card">
         <h2>Księga gości</h2>
-        <form id="guestForm">
+        <!-- Fallback: bez JS wyśle POST na API -->
+        <form id="guestForm" action="/api/guestbook" method="post" autocomplete="off">
           <input name="name" placeholder="Twoje imię" required />
           <input name="message" placeholder="Twoja wiadomość" required />
           <button class="btn" type="submit">Dodaj wpis</button>
         </form>
         <ul id="guestList"></ul>
       </div>
+    </section>
+  </main>
 
-      <div class="card">
-        <h2>Jak uczyć się G
+  <!-- Warstwa na animowane serduszka -->
+  <div id="hearts"></div>
+
+  <!-- Zewnętrzny skrypt (z diagnostyką w konsoli) -->
+  <script src="script.js" defer></script>
+  <noscript>Do obsługi księgi gości i animacji wymagany jest JavaScript.</noscript>
+</body>
+</html>
